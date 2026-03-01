@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "computer-use"
+version = "0.1.0"
+description = "Cross-platform desktop automation CLI for LLM agents"
+requires-python = ">=3.10"
+dependencies = [
+    "pynput>=1.7.6",
+    "mss>=9.0.0",
+    "Pillow>=10.0.0",
+]
+
+[project.optional-dependencies]
+ocr-windows = ["paddleocr>=2.7.0", "paddlepaddle>=2.5.0"]
+ocr-macos = ["pyobjc-framework-Vision>=10.0", "pyobjc-framework-Quartz>=10.0", "pyobjc-framework-Cocoa>=10.0"]
+dev = ["pytest>=8.0", "pytest-mock>=3.12", "ruff>=0.4.0", "mypy>=1.10"]
+
+[project.scripts]
+computer-use = "computer_use.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/computer_use"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: requires real display (deselect with '-m \"not integration\"')",
+]
+addopts = "-m 'not integration'"
